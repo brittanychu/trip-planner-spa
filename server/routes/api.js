@@ -16,3 +16,41 @@ router.get('/', (req, res, next) => {
         .catch(next);
 });
 
+router.get('/hotel/:name', (req, res, next) => {
+    Hotel.findOne({
+        where: {
+            name: req.params.name
+        },
+        include: [{all: true}]
+    })
+        .then( (values) => {
+            res.json(values);
+        })
+        .catch(next);
+});
+
+router.get('/restaurant/:name', (req, res, next) => {
+    Restaurant.findOne({
+        where: {
+            name: req.params.name
+        },
+        include: [{all: true}]
+    })
+        .then( (values) => {
+            res.json(values);
+        })
+        .catch(next);
+});
+
+router.get('/activity/:name', (req, res, next) => {
+    Activity.findOne({
+        where: {
+            name: req.params.name
+        },
+        include: [{all: true}]
+    })
+        .then( (values) => {
+            res.json(values);
+        })
+        .catch(next);
+});
