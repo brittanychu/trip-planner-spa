@@ -555,26 +555,38 @@ const map = new mapboxgl.Map({
 fetch('/api')
   .then(result => result.json())
   .then(data => {
-    data[0].forEach((elem) => {
-      const list = document.getElementById('hotels-choices');
-      const option = document.createElement('option');
-      option.text = elem.name;
-      list.add(option);
-    })
-    
-    data[1].forEach((elem) => {
-      const list = document.getElementById('restaurants-choices');
-      const option = document.createElement('option');
-      option.text = elem.name;
-      list.add(option);
-    })
+    const typesArray = ['hotels', 'restaurants', 'activities'];
 
-    data[2].forEach((elem) => {
-      const list = document.getElementById('activities-choices');
-      const option = document.createElement('option');
-      option.text = elem.name;
-      list.add(option);
-    })
+    for (let i=0; i< data.length; i++){
+      data[i].forEach( (elem) => {
+        const list = document.getElementById(`${typesArray[i]}-choices`);
+        const option = document.createElement('option');
+        option.text = elem.name;
+        list.add(option);
+      })
+    }
+
+
+    // data[0].forEach((elem) => {
+    //   const list = document.getElementById('hotels-choices');
+    //   const option = document.createElement('option');
+    //   option.text = elem.name;
+    //   list.add(option);
+    // })
+    
+    // data[1].forEach((elem) => {
+    //   const list = document.getElementById('restaurants-choices');
+    //   const option = document.createElement('option');
+    //   option.text = elem.name;
+    //   list.add(option);
+    // })
+
+    // data[2].forEach((elem) => {
+    //   const list = document.getElementById('activities-choices');
+    //   const option = document.createElement('option');
+    //   option.text = elem.name;
+    //   list.add(option);
+    // })
   })
   .catch(console.error);
 

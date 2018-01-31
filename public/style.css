@@ -99,5 +99,26 @@ select {
   background: #286090;
 }
 
+.remove-btn {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  font-size: 12px;
+  background: rgb(252, 97, 97);
+  border: 0;
+  color: #fff;
+}
 
+.remove-btn:hover {
+  background: rgb(250, 67, 67);
+}
+
+.remove-btn:active {
+  background: rgb(250, 44, 44);
+}
+
+.list-group > li {
+  display: flex;
+  justify-content: space-between;
+}
 

@@ -16,8 +16,13 @@ router.get('/', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/hotels/:name', (req, res, next) => {
-    Hotel.findOne({
+router.get('/:type/:name', (req, res, next) => {
+    let Model;
+    if (req.params.type === 'hotels') Model = Hotel;
+    else if (req.params.type === 'restaurants') Model = Restaurant;
+    else Model = Activity;
+
+    Model.findOne({
         where: {
             name: req.params.name
         },
@@ -29,28 +34,28 @@ router.get('/hotels/:name', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/restaurants/:name', (req, res, next) => {
-    Restaurant.findOne({
-        where: {
-            name: req.params.name
-        },
-        include: [{all: true}]
-    })
-        .then( (values) => {
-            res.json(values);
-        })
-        .catch(next);
-});
+// router.get('/restaurants/:name', (req, res, next) => {
+//     Restaurant.findOne({
+//         where: {
+//             name: req.params.name
+//         },
+//         include: [{all: true}]
+//     })
+//         .then( (values) => {
+//             res.json(values);
+//         })
+//         .catch(next);
+// });
 
-router.get('/activities/:name', (req, res, next) => {
-    Activity.findOne({
-        where: {
-            name: req.params.name
-        },
-        include: [{all: true}]
-    })
-        .then( (values) => {
-            res.json(values);
-        })
-        .catch(next);
-});
+// router.get('/activities/:name', (req, res, next) => {
+//     Activity.findOne({
+//         where: {
+//             name: req.params.name
+//         },
+//         include: [{all: true}]
+//     })
+//         .then( (values) => {
+//             res.json(values);
+//         })
+//         .catch(next);
+// });
