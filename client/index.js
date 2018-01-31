@@ -42,19 +42,18 @@ fetch('/api')
   })
   .catch(console.error);
 
-const hotelButton = document.getElementById('hotels-add');
-hotelButton.addEventListener('click', function(){
-  // const options = document.getElementById('hotels-choices').options
-  // console.log(options[options.selectedIndex].text)
 
-  // Get the select dom element
-  const select = document.getElementById(`hotels-choices`);
-  // use `.value` to get the currently selected value
+
+['hotels', 'restaurants', 'activities'].forEach(function(attractionType) {
+  const addButton = document.getElementById(`${attractionType}-add`);
+  addButton.addEventListener('click', function(){
+
+  const select = document.getElementById(`${attractionType}-choices`);
   const selectedName = select.value;
   
   const itineraryItem = document.createElement('li');
   itineraryItem.append(selectedName);
-  document.getElementById('hotels-list').append(itineraryItem);
+  document.getElementById(`${attractionType}-list`).append(itineraryItem);
 
   const removeButton = document.createElement('button');
   removeButton.className = 'remove-btn';
@@ -63,77 +62,12 @@ hotelButton.addEventListener('click', function(){
 
   let marker;
 
-  fetch(`/api/hotel/${selectedName}`)
+  fetch(`/api/${attractionType}/${selectedName}`)
     .then( (result) => result.json())
-    .then( (hotel) => {
-      marker = buildMarker('hotels', hotel.place.location)
-      return marker;
-    })
-    .then( (marker) => {
-      marker.addTo(map);
-    });
-  
-  removeButton.addEventListener('click', function(){
-    // console.dir(itineraryItem.childNodes[0].data)
-    marker.remove();
-    document.getElementById('hotels-list').removeChild(itineraryItem);
-  });
-});
-
-const restaurantButton = document.getElementById('restaurants-add');
-restaurantButton.addEventListener('click', function(){
-  const select = document.getElementById('restaurants-choices');
-  const selectedName = select.value;
-  
-  const itineraryItem = document.createElement('li');
-  itineraryItem.append(selectedName);
-  document.getElementById('restaurants-list').append(itineraryItem);
-
-  const removeButton = document.createElement('button');
-  removeButton.className = 'remove-btn';
-  removeButton.append('x')
-  itineraryItem.append(removeButton);
-
-  let marker;
-
-  fetch(`/api/restaurant/${selectedName}`)
-    .then( (result) => result.json())
-    .then( (restaurant) => {
-      marker = buildMarker('restaurants', restaurant.place.location)
-      return marker;
-    })
-    .then( (marker) => {
-      marker.addTo(map);
-    });
-  
-  removeButton.addEventListener('click', function(){
-    marker.remove();
-    document.getElementById('restaurants-list').removeChild(itineraryItem);
-  });
-});
-
-const activityButton = document.getElementById('activities-add');
-activityButton.addEventListener('click', function(){
-  const select = document.getElementById('activities-choices');
-  const selectedName = select.value;
-  
-  const itineraryItem = document.createElement('li');
-  itineraryItem.append(selectedName);
-  document.getElementById('activities-list').append(itineraryItem);
-
-  const removeButton = document.createElement('button');
-  removeButton.className = 'remove-btn';
-  removeButton.append('x')
-  itineraryItem.append(removeButton);
-
-  let marker;
-
-  fetch(`/api/activity/${selectedName}`)
-    .then( (result) => result.json())
-    .then( (activity) => {
-      marker = buildMarker('activities', activity.place.location)
+    .then( (attraction) => {
+      marker = buildMarker(`${attractionType}`, attraction.place.location)
       map.flyTo({
-        center: activity.place.location,
+        center: attraction.place.location,
         zoom: 14,
         speed: 1.75,
         pitch: 45,
@@ -150,8 +84,145 @@ activityButton.addEventListener('click', function(){
     });
   
   removeButton.addEventListener('click', function(){
+    // console.dir(itineraryItem.childNodes[0].data)
     marker.remove();
-    document.getElementById('activities-list').removeChild(itineraryItem);
+    document.getElementById(`${attractionType}-list`).removeChild(itineraryItem);
   });
 });
+})
+
+// const hotelButton = document.getElementById('hotels-add');
+// hotelButton.addEventListener('click', function(){
+//   // const options = document.getElementById('hotels-choices').options
+//   // console.log(options[options.selectedIndex].text)
+
+//   // Get the select dom element
+//   const select = document.getElementById(`hotels-choices`);
+//   // use `.value` to get the currently selected value
+//   const selectedName = select.value;
+  
+//   const itineraryItem = document.createElement('li');
+//   itineraryItem.append(selectedName);
+//   document.getElementById('hotels-list').append(itineraryItem);
+
+//   const removeButton = document.createElement('button');
+//   removeButton.className = 'remove-btn';
+//   removeButton.append('x')
+//   itineraryItem.append(removeButton);
+
+//   let marker;
+
+//   fetch(`/api/hotels/${selectedName}`)
+//     .then( (result) => result.json())
+//     .then( (hotel) => {
+//       marker = buildMarker('hotels', hotel.place.location)
+//       map.flyTo({
+//         center: activity.place.location,
+//         zoom: 14,
+//         speed: 1.75,
+//         pitch: 45,
+//         bearing: 25,
+//         curve: 3,
+//         easing(t) {
+//           return t
+//         }
+//       })
+//       return marker;
+//     })
+//     .then( (marker) => {
+//       marker.addTo(map);
+//     });
+  
+//   removeButton.addEventListener('click', function(){
+//     // console.dir(itineraryItem.childNodes[0].data)
+//     marker.remove();
+//     document.getElementById('hotels-list').removeChild(itineraryItem);
+//   });
+// });
+
+// const restaurantButton = document.getElementById('restaurants-add');
+// restaurantButton.addEventListener('click', function(){
+//   const select = document.getElementById('restaurants-choices');
+//   const selectedName = select.value;
+  
+//   const itineraryItem = document.createElement('li');
+//   itineraryItem.append(selectedName);
+//   document.getElementById('restaurants-list').append(itineraryItem);
+
+//   const removeButton = document.createElement('button');
+//   removeButton.className = 'remove-btn';
+//   removeButton.append('x')
+//   itineraryItem.append(removeButton);
+
+//   let marker;
+
+//   fetch(`/api/restaurants/${selectedName}`)
+//     .then( (result) => result.json())
+//     .then( (restaurant) => {
+//       marker = buildMarker('restaurants', restaurant.place.location)
+//       map.flyTo({
+//         center: activity.place.location,
+//         zoom: 14,
+//         speed: 1.75,
+//         pitch: 45,
+//         bearing: 25,
+//         curve: 3,
+//         easing(t) {
+//           return t
+//         }
+//       })
+//       return marker;
+//     })
+//     .then( (marker) => {
+//       marker.addTo(map);
+//     });
+  
+//   removeButton.addEventListener('click', function(){
+//     marker.remove();
+//     document.getElementById('restaurants-list').removeChild(itineraryItem);
+//   });
+// });
+
+// const activityButton = document.getElementById('activities-add');
+// activityButton.addEventListener('click', function(){
+//   const select = document.getElementById('activities-choices');
+//   const selectedName = select.value;
+  
+//   const itineraryItem = document.createElement('li');
+//   itineraryItem.append(selectedName);
+//   document.getElementById('activities-list').append(itineraryItem);
+
+//   const removeButton = document.createElement('button');
+//   removeButton.className = 'remove-btn';
+//   removeButton.append('x')
+//   itineraryItem.append(removeButton);
+
+//   let marker;
+
+//   fetch(`/api/activities/${selectedName}`)
+//     .then( (result) => result.json())
+//     .then( (activity) => {
+//       marker = buildMarker('activities', activity.place.location)
+//       map.flyTo({
+//         center: activity.place.location,
+//         zoom: 14,
+//         speed: 1.75,
+//         pitch: 45,
+//         bearing: 25,
+//         curve: 3,
+//         easing(t) {
+//           return t
+//         }
+//       })
+//       return marker;
+//     })
+//     .then( (marker) => {
+//       marker.addTo(map);
+//     });
+  
+//   removeButton.addEventListener('click', function(){
+//     marker.remove();
+//     document.getElementById('activities-list').removeChild(itineraryItem);
+//   });
+// });
 

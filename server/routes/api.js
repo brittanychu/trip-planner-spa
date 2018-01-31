@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/hotel/:name', (req, res, next) => {
+router.get('/hotels/:name', (req, res, next) => {
     Hotel.findOne({
         where: {
             name: req.params.name
@@ -29,7 +29,7 @@ router.get('/hotel/:name', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/restaurant/:name', (req, res, next) => {
+router.get('/restaurants/:name', (req, res, next) => {
     Restaurant.findOne({
         where: {
             name: req.params.name
@@ -42,7 +42,7 @@ router.get('/restaurant/:name', (req, res, next) => {
         .catch(next);
 });
 
-router.get('/activity/:name', (req, res, next) => {
+router.get('/activities/:name', (req, res, next) => {
     Activity.findOne({
         where: {
             name: req.params.name
